@@ -13,17 +13,17 @@ Users can instantly see their daily health status and ask questions about their 
 ### Validated
 
 - [x] OAuth2 authentication flow for Oura API (multi-user, distributable) — Validated in Phase 01: auth-and-api-client
+- [x] Daily health dashboard showing sleep, readiness, activity, and stress scores — Validated in Phase 02: daily-dashboard
+- [x] Personal info retrieval (ring config, user profile) — Validated in Phase 02: daily-dashboard
 
 ### Active
 
 - [ ] OAuth2 authentication flow for Oura API (multi-user, distributable)
-- [ ] Daily health dashboard showing sleep, readiness, activity, and stress scores
 - [ ] Natural-language queries against Oura data (e.g., "how did I sleep this week?")
 - [ ] Support for all major Oura API v2 endpoints (sleep, activity, readiness, heart rate, SpO2, stress, workouts, sessions, tags)
 - [ ] Date range querying with sensible defaults
 - [ ] Trend analysis and insights over time periods
 - [ ] Installable as a Claude Code skill via skill-creator pattern
-- [ ] Personal info retrieval (ring config, user profile)
 
 ### Out of Scope
 
