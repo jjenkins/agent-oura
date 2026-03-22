@@ -16,6 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Daily Dashboard** - Unified health dashboard showing readiness, sleep, activity, and stress scores (completed 2026-03-22)
 - [ ] **Phase 3: Queries and Extended Data** - Natural language query routing and remaining data types (workouts, sessions, SpO2, heart rate)
 - [x] **Phase 4: Distribution** - Installable skill packaging, setup script, and user documentation (completed 2026-03-22)
+- [ ] **Phase 5: Integration Cleanup** - Fix orphaned export, dashboard auth error masking, and profile edge case messaging
 
 ## Phase Details
 
@@ -75,6 +76,18 @@ Plans:
 - [x] 04-01-PLAN.md -- Credential config system (setup.mjs, auth.mjs refactor, SKILL.md update)
 - [x] 04-02-PLAN.md -- Installer script (install.sh) and README documentation
 
+### Phase 5: Integration Cleanup
+**Goal**: Resolve integration issues found in milestone audit — fix orphaned export, auth error masking in dashboard, and wrong error message for empty ring configuration
+**Depends on**: Phase 4
+**Requirements**: ERR-01, ERR-02, ERR-03, DASH-03, DATA-05
+**Gap Closure**: Closes INT-01, INT-02, INT-03 from v1.0 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. `formatError` in client.mjs is either wired into consumer catch blocks or removed (no orphaned exports)
+  2. When dashboard.mjs receives an auth error (401/403), it reports an authentication problem — not a sync delay
+  3. When profile.mjs encounters an empty ring_configuration array, it shows a pairing/setup message — not DATA_NOT_SYNCED
+  4. E2E flows "Daily Dashboard" and "Profile" no longer have degraded status
+**Plans**: 0 plans
+
 ## Progress
 
 **Execution Order:**
@@ -86,3 +99,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 2. Daily Dashboard | 2/2 | Complete   | 2026-03-22 |
 | 3. Queries and Extended Data | 2/2 | Complete | 2026-03-22 |
 | 4. Distribution | 2/2 | Complete   | 2026-03-22 |
+| 5. Integration Cleanup | 0/0 | Not Started | - |
