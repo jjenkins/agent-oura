@@ -46,7 +46,7 @@ Plans:
   4. User can retrieve their personal profile and ring configuration information
 **Plans**: 2 plans
 Plans:
-- [ ] 02-01-PLAN.md -- Daily health dashboard script (readiness, sleep, activity, stress)
+- [x] 02-01-PLAN.md -- Daily health dashboard script (readiness, sleep, activity, stress)
 - [ ] 02-02-PLAN.md -- Profile script and SKILL.md command updates
 
 ### Phase 3: Queries and Extended Data

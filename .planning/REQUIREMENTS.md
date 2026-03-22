@@ -14,9 +14,9 @@
 
 ### Dashboard
 
-- [ ] **DASH-01**: User can invoke skill and see today's readiness, sleep, activity, and stress scores
-- [ ] **DASH-02**: Dashboard shows top contributors for readiness and sleep scores
-- [ ] **DASH-03**: Dashboard gracefully handles missing data when today's scores haven't synced yet
+- [x] **DASH-01**: User can invoke skill and see today's readiness, sleep, activity, and stress scores
+- [x] **DASH-02**: Dashboard shows top contributors for readiness and sleep scores
+- [x] **DASH-03**: Dashboard gracefully handles missing data when today's scores haven't synced yet
 
 ### Natural Language Queries
 
@@ -35,9 +35,9 @@
 
 ### Error Handling
 
-- [ ] **ERR-01**: Rate limit (429) responses are handled with retry logic and user feedback
-- [ ] **ERR-02**: Auth errors (401/403) trigger auto-refresh or clear re-auth instructions
-- [ ] **ERR-03**: Missing data scenarios show helpful messages (sync delay, membership required)
+- [x] **ERR-01**: Rate limit (429) responses are handled with retry logic and user feedback
+- [x] **ERR-02**: Auth errors (401/403) trigger auto-refresh or clear re-auth instructions
+- [x] **ERR-03**: Missing data scenarios show helpful messages (sync delay, membership required)
 
 ### Distribution
 
@@ -76,12 +76,12 @@
 | AUTH-02 | Phase 1 | Complete |
 | AUTH-03 | Phase 1 | Complete |
 | AUTH-04 | Phase 1 | Complete |
-| ERR-01 | Phase 1 | Pending |
-| ERR-02 | Phase 1 | Pending |
-| ERR-03 | Phase 1 | Pending |
-| DASH-01 | Phase 2 | Pending |
-| DASH-02 | Phase 2 | Pending |
-| DASH-03 | Phase 2 | Pending |
+| ERR-01 | Phase 1 | Complete |
+| ERR-02 | Phase 1 | Complete |
+| ERR-03 | Phase 1 | Complete |
+| DASH-01 | Phase 2 | Complete |
+| DASH-02 | Phase 2 | Complete |
+| DASH-03 | Phase 2 | Complete |
 | DATA-05 | Phase 2 | Pending |
 | NLQ-01 | Phase 3 | Pending |
 | NLQ-02 | Phase 3 | Pending |
