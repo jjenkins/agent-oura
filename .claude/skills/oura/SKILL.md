@@ -48,6 +48,35 @@ Parse the JSON output:
 - If `"authenticated": true` — show the user their email, token expiry (in minutes), and connection status
 - If `"authenticated": false` — show the `reason` field and suggest running `/oura auth`
 
+### /oura
+
+Run the daily health dashboard:
+
+```bash
+cd {project_root}/.claude/skills/oura/scripts && node dashboard.mjs
+```
+
+Parse the output:
+- The first line is `=== Daily Health Dashboard ===` followed by the date
+- Each `--- Section: value ---` line is a score section (readiness, sleep, activity, stress)
+- Indented lines below each header are key: value metrics
+- If output contains "Today's data hasn't synced yet", relay that message to the user
+- Present each section as a titled block with the score or summary prominently displayed
+- For readiness and sleep sections: list all contributors with their values; interpret the raw API key names as natural human-readable labels (e.g., `hrv_balance` -> "HRV balance", `deep_sleep` -> "Deep sleep", `previous_night` -> "Previous night")
+- For activity and stress sections: show only the summary metrics listed; do not mention contributors
+- If a section is missing from the output, it means that data hasn't synced yet -- do not mention the missing section at all
+- A score shown as "pending" means data exists but the score hasn't been calculated yet
+
+### /oura profile
+
+Show personal info and ring configuration:
+
+```bash
+cd {project_root}/.claude/skills/oura/scripts && node profile.mjs
+```
+
+Present the personal info (age, weight, height, biological sex, email) and ring details (hardware type, color, design, firmware version, size, setup date) in a readable format. This is separate from the daily dashboard -- it shows account and device information, not daily health scores.
+
 ## Error Handling
 
 When scripts return errors or data commands fail, translate the error code to a user-friendly message:
@@ -68,3 +97,5 @@ When scripts return errors or data commands fail, translate the error code to a 
 - Token refresh is automatic: `readTokens()` in `auth.mjs` refreshes within 60 seconds of expiry
 - Scripts are ESM (`.mjs` files) and require Node.js 22+
 - Data fetch scripts (Phase 2+) import `ouraGet` / `ouraGetWithRetry` from `client.mjs`
+- The daily dashboard (`/oura`) fetches today's data from four endpoints (readiness, sleep, activity, stress) in parallel
+- Dashboard sections for unsynced data are omitted entirely -- if nothing has synced, a notice is shown instead
