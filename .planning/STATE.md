@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 02-daily-dashboard 02-01-PLAN.md
-last_updated: "2026-03-22T03:47:10.492Z"
+stopped_at: Completed 02-daily-dashboard 02-02-PLAN.md
+last_updated: "2026-03-22T03:50:22.651Z"
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 5
-  completed_plans: 4
+  completed_plans: 5
 ---
 
 # Project State
@@ -50,6 +50,7 @@ Plan: 2 of 2
 | Phase 01-auth-and-api-client P02 | 15 | 3 tasks | 3 files |
 | Phase 01-auth-and-api-client P03 | 108s | 1 tasks | 1 files |
 | Phase 02-daily-dashboard P01 | 1min | 1 tasks | 1 files |
+| Phase 02-daily-dashboard P02 | 83s | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,9 @@ Recent decisions affecting current work:
 - [Phase 02-daily-dashboard]: Used Promise.allSettled not Promise.all so partial sync still shows available data (D-09)
 - [Phase 02-daily-dashboard]: Imported ouraGet directly (not ouraGetWithRetry) to preserve typed DATA_NOT_SYNCED error for section collapse
 - [Phase 02-daily-dashboard]: Stress section uses day_summary as header value — stress endpoint has no numeric score field
+- [Phase 02-daily-dashboard]: Used Promise.all for profile fetch (not allSettled): both endpoints required for meaningful output
+- [Phase 02-daily-dashboard]: Used ouraGetWithRetry for profile: no per-section collapse logic needed, errors propagate as user-friendly messages
+- [Phase 02-daily-dashboard]: Ring configuration sorted by set_up_at + .at(-1) to get most recent record, not data[0]
 
 ### Pending Todos
 
@@ -87,6 +91,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T03:47:10.488Z
-Stopped at: Completed 02-daily-dashboard 02-01-PLAN.md
+Last session: 2026-03-22T03:50:22.647Z
+Stopped at: Completed 02-daily-dashboard 02-02-PLAN.md
 Resume file: None

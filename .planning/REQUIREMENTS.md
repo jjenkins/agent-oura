@@ -31,7 +31,7 @@
 - [ ] **DATA-02**: User can view session data (guided/unguided sessions)
 - [ ] **DATA-03**: User can view SpO2 (blood oxygen) data
 - [ ] **DATA-04**: User can view heart rate data (5-minute intervals, ISO 8601 datetime params)
-- [ ] **DATA-05**: User can view ring configuration and personal profile info
+- [x] **DATA-05**: User can view ring configuration and personal profile info
 
 ### Error Handling
 
@@ -82,7 +82,7 @@
 | DASH-01 | Phase 2 | Complete |
 | DASH-02 | Phase 2 | Complete |
 | DASH-03 | Phase 2 | Complete |
-| DATA-05 | Phase 2 | Pending |
+| DATA-05 | Phase 2 | Complete |
 | NLQ-01 | Phase 3 | Pending |
 | NLQ-02 | Phase 3 | Pending |
 | NLQ-03 | Phase 3 | Pending |
