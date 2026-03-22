@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Checkpoint 04-distribution 04-02-PLAN.md Task 3 (human-verify)
-last_updated: "2026-03-22T16:37:02.936Z"
+stopped_at: Completed 05-integration-cleanup 05-01-PLAN.md
+last_updated: "2026-03-22T22:14:22.138Z"
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 9
-  completed_plans: 9
+  total_phases: 5
+  completed_phases: 5
+  total_plans: 10
+  completed_plans: 10
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-21)
 
 **Core value:** Users can instantly see their daily health status and ask questions about their Oura data without leaving Claude Code.
-**Current focus:** Phase 04 — distribution
+**Current focus:** Phase 05 — integration-cleanup
 
 ## Current Position
 
-Phase: 04
-Plan: Not started
+Phase: 05 (integration-cleanup) — EXECUTING
+Plan: 1 of 1
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Plan: Not started
 | Phase 03-queries-and-extended-data P02 | 1min | 2 tasks | 2 files |
 | Phase 04-distribution P01 | 3min | 2 tasks | 4 files |
 | Phase 04-distribution P02 | 3min | 2 tasks | 2 files |
+| Phase 05-integration-cleanup P01 | 2min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase 04-distribution]: Atomic write pattern (tmp -> rename -> chmod 0600) reused from saveTokens for config.json write in setup.mjs
 - [Phase 04-distribution]: install.sh uses git clone --depth=1 as primary download method — simpler than curl-per-file; all Claude Code users have git
 - [Phase 04-distribution]: README documents both curl pipe and download-and-review install methods — gives security-conscious users a review path
+- [Phase 05-integration-cleanup]: Used r.reason?.message inspection in dashboard to check raw allSettled results — keeps extractRecord unchanged while detecting auth codes globally before the sync-delay path fires
+- [Phase 05-integration-cleanup]: Switched ring_configuration from ouraGetWithRetry to ouraGet with inline .catch() — ouraGetWithRetry converts typed errors to human strings which breaks DATA_NOT_SYNCED detection
 
 ### Pending Todos
 
@@ -105,6 +108,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T16:22:17.631Z
-Stopped at: Checkpoint 04-distribution 04-02-PLAN.md Task 3 (human-verify)
+Last session: 2026-03-22T22:14:22.134Z
+Stopped at: Completed 05-integration-cleanup 05-01-PLAN.md
 Resume file: None

@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Daily Dashboard** - Unified health dashboard showing readiness, sleep, activity, and stress scores (completed 2026-03-22)
 - [ ] **Phase 3: Queries and Extended Data** - Natural language query routing and remaining data types (workouts, sessions, SpO2, heart rate)
 - [x] **Phase 4: Distribution** - Installable skill packaging, setup script, and user documentation (completed 2026-03-22)
-- [ ] **Phase 5: Integration Cleanup** - Fix orphaned export, dashboard auth error masking, and profile edge case messaging
+- [x] **Phase 5: Integration Cleanup** - Fix orphaned export, dashboard auth error masking, and profile edge case messaging (completed 2026-03-22)
 
 ## Phase Details
 
@@ -88,7 +88,7 @@ Plans:
   4. E2E flows "Daily Dashboard" and "Profile" no longer have degraded status
 **Plans**: 1 plans
 Plans:
-- [ ] 05-01-PLAN.md -- Remove orphaned formatError, fix dashboard auth masking, fix profile ring pairing message
+- [x] 05-01-PLAN.md -- Remove orphaned formatError, fix dashboard auth masking, fix profile ring pairing message
 
 ## Progress
 
@@ -101,4 +101,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. Daily Dashboard | 2/2 | Complete   | 2026-03-22 |
 | 3. Queries and Extended Data | 2/2 | Complete | 2026-03-22 |
 | 4. Distribution | 2/2 | Complete   | 2026-03-22 |
-| 5. Integration Cleanup | 0/1 | Not Started | - |
+| 5. Integration Cleanup | 1/1 | Complete   | 2026-03-22 |
