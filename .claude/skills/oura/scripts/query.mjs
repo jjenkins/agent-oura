@@ -253,6 +253,12 @@ async function processSingleEndpoint(ep, start, end) {
     summary = null;
   }
 
+  // Strip bulky fields that are never interpreted (minute-by-minute MET data,
+  // 5-min activity class strings). These dominate output size on multi-day queries.
+  if (ep === 'daily_activity') {
+    records = records.map(({ met, class_5_min, ...rest }) => rest);
+  }
+
   return { summary, records };
 }
 
