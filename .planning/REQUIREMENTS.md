@@ -21,16 +21,16 @@
 ### Natural Language Queries
 
 - [ ] **NLQ-01**: User can ask natural-language questions about their Oura data
-- [ ] **NLQ-02**: Skill routes questions to the correct API endpoint and date range
-- [ ] **NLQ-03**: User can query trend analysis over configurable time periods
+- [x] **NLQ-02**: Skill routes questions to the correct API endpoint and date range
+- [x] **NLQ-03**: User can query trend analysis over configurable time periods
 - [ ] **NLQ-04**: User can ask correlation questions across multiple metrics
 
 ### Extended Data
 
-- [ ] **DATA-01**: User can view workout summaries (type, duration, intensity)
-- [ ] **DATA-02**: User can view session data (guided/unguided sessions)
-- [ ] **DATA-03**: User can view SpO2 (blood oxygen) data
-- [ ] **DATA-04**: User can view heart rate data (5-minute intervals, ISO 8601 datetime params)
+- [x] **DATA-01**: User can view workout summaries (type, duration, intensity)
+- [x] **DATA-02**: User can view session data (guided/unguided sessions)
+- [x] **DATA-03**: User can view SpO2 (blood oxygen) data
+- [x] **DATA-04**: User can view heart rate data (5-minute intervals, ISO 8601 datetime params)
 - [x] **DATA-05**: User can view ring configuration and personal profile info
 
 ### Error Handling
@@ -84,13 +84,13 @@
 | DASH-03 | Phase 2 | Complete |
 | DATA-05 | Phase 2 | Complete |
 | NLQ-01 | Phase 3 | Pending |
-| NLQ-02 | Phase 3 | Pending |
-| NLQ-03 | Phase 3 | Pending |
+| NLQ-02 | Phase 3 | Complete |
+| NLQ-03 | Phase 3 | Complete |
 | NLQ-04 | Phase 3 | Pending |
-| DATA-01 | Phase 3 | Pending |
-| DATA-02 | Phase 3 | Pending |
-| DATA-03 | Phase 3 | Pending |
-| DATA-04 | Phase 3 | Pending |
+| DATA-01 | Phase 3 | Complete |
+| DATA-02 | Phase 3 | Complete |
+| DATA-03 | Phase 3 | Complete |
+| DATA-04 | Phase 3 | Complete |
 | DIST-01 | Phase 4 | Pending |
 | DIST-02 | Phase 4 | Pending |
 

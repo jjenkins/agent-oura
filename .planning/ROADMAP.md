@@ -60,7 +60,7 @@ Plans:
   4. User can retrieve workout summaries, session data, SpO2 averages, and heart rate data through natural language or direct commands
 **Plans**: 2 plans
 Plans:
-- [ ] 03-01-PLAN.md -- Generic query script (single + multi-endpoint modes, stats, pagination)
+- [x] 03-01-PLAN.md -- Generic query script (single + multi-endpoint modes, stats, pagination)
 - [ ] 03-02-PLAN.md -- Correlation mode and SKILL.md query routing instructions
 
 ### Phase 4: Distribution
@@ -81,5 +81,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. Auth and API Client | 2/3 | Gap closure | - |
 | 2. Daily Dashboard | 2/2 | Complete   | 2026-03-22 |
-| 3. Queries and Extended Data | 0/2 | Planning complete | - |
+| 3. Queries and Extended Data | 1/2 | In Progress|  |
 | 4. Distribution | 0/TBD | Not started | - |
