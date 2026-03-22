@@ -22,7 +22,7 @@ decisions:
 metrics:
   duration: ~3min
   completed: "2026-03-22T16:25:00Z"
-  tasks_completed: 2
+  tasks_completed: 3
   files_modified: 2
 ---
 
@@ -106,9 +106,20 @@ All acceptance criteria met:
 - README.md contains environment variables table with OURA_CLIENT_ID and OURA_CLIENT_SECRET
 - README.md is 197 lines (well above 100-line minimum)
 
+### Task 3: Human verification checkpoint
+
+**Commit:** 9d6f29f
+
+User reviewed the distribution package and requested additions to the Oura developer app registration section:
+- Added Website URL field with localhost guidance
+- Added Privacy Policy URL field with localhost guidance
+- Added Terms of Service URL field with localhost guidance
+
+User approved the checkpoint after all three URL fields were documented.
+
 ## Deviations from Plan
 
-None — plan executed exactly as written.
+- Added Website URL, Privacy Policy URL, and Terms of Service URL fields to Oura developer app registration steps (user feedback during checkpoint — these are required form fields not in the original plan)
 
 ## Known Stubs
 
