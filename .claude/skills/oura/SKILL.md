@@ -77,6 +77,96 @@ cd {project_root}/.claude/skills/oura/scripts && node profile.mjs
 
 Present the personal info (age, weight, height, biological sex, email) and ring details (hardware type, color, design, firmware version, size, setup date) in a readable format. This is separate from the daily dashboard -- it shows account and device information, not daily health scores.
 
+## Query Routing
+
+When a user asks a question about their Oura data (rather than invoking a specific command), determine the best approach:
+
+### Today vs. Multi-Day
+
+- **Today-only questions** (e.g., "how did I sleep last night?", "what's my readiness today?"): Run `dashboard.mjs` -- it already shows today's data with sorted contributors.
+- **Multi-day questions** (e.g., "how did I sleep this week?", "show my activity for the last month"): Use `query.mjs` with the appropriate endpoint and date range.
+
+### Running Queries
+
+```bash
+# Single endpoint
+cd {project_root}/.claude/skills/oura/scripts && node query.mjs --endpoint <name> --start YYYY-MM-DD --end YYYY-MM-DD
+
+# Multiple endpoints (e.g., "how was my week?")
+cd {project_root}/.claude/skills/oura/scripts && node query.mjs --endpoints <name1>,<name2>,<name3> --start YYYY-MM-DD --end YYYY-MM-DD
+
+# Correlation (e.g., "does my sleep affect my readiness?")
+cd {project_root}/.claude/skills/oura/scripts && node query.mjs --correlate <name1>,<name2> --start YYYY-MM-DD --end YYYY-MM-DD --offset <days>
+```
+
+### Endpoint Names
+
+Map the user's language to these endpoint names:
+
+| User Says | Endpoint Name |
+|-----------|---------------|
+| sleep, sleep score | `daily_sleep` |
+| readiness, readiness score | `daily_readiness` |
+| activity, activity score, steps | `daily_activity` |
+| stress | `daily_stress` |
+| blood oxygen, SpO2, oxygen | `daily_spo2` |
+| heart rate, HR, pulse | `heartrate` |
+| workout, exercise, training | `workout` |
+| session, meditation, breathing | `session` |
+
+### Date Range Derivation
+
+Derive `--start` and `--end` from the user's question:
+
+| User Says | Start | End |
+|-----------|-------|-----|
+| "this week" / "last 7 days" / unspecified | 7 days ago | today |
+| "last 2 weeks" | 14 days ago | today |
+| "this month" / "last 30 days" | 30 days ago | today |
+| "last 3 months" / "last 90 days" | 60 days ago (max) | today |
+| specific dates mentioned | as stated | as stated |
+
+If the user asks for more than 60 days, use 60 as the start and inform them: "The Oura API only provides up to ~60 days of historical data."
+
+When no time period is mentioned, default to the last 7 days.
+
+### Interpreting Query Output
+
+The script returns JSON. Parse it and present results conversationally:
+
+- **summary.avg/min/max**: "Your average sleep score was 82 (range: 71-91)"
+- **summary.trend**: "improving" / "declining" / "stable" -- weave into your response naturally
+- **records**: Reference specific days as examples ("Your best night was March 18 at 91")
+- **warning**: If present, relay to the user
+
+For **multi-endpoint** results, each endpoint has its own summary and records under `results.<endpoint>`.
+
+For **stress** queries: the summary is a count of day types (e.g., "3 days restored, 2 normal, 1 stressed") -- there is no numeric score.
+
+For **workout/session** queries: there is no summary -- interpret the raw records directly (type, duration, intensity for workouts; type, mood for sessions).
+
+### Correlation Queries
+
+Use correlation mode when the user asks about relationships between metrics (e.g., "does my sleep affect my readiness?").
+
+- Use `--offset 1` when the user implies a next-day effect (e.g., "does last night's sleep affect today's readiness?")
+- Use `--offset 0` (or omit) for same-day correlations
+- Correlation is available for: `daily_sleep`, `daily_readiness`, `daily_activity`, `daily_spo2`, `heartrate`
+- NOT available for: `daily_stress`, `workout`, `session` (no numeric score)
+
+The output includes a `correlation.category` field. Present it conversationally:
+- "The system has determined there is a **[category]** correlation between your [metric A] and [metric B]."
+- Point out 1-2 specific days from `aligned_pairs` as concrete examples.
+- If `warning` is present (small sample size), mention that the result should be taken with a grain of salt.
+- Never show the raw r-value to the user.
+
+### Ambiguous Questions
+
+When the user's question is vague (e.g., "how am I doing?", "show me everything"):
+- Use multi-endpoint mode with `daily_sleep,daily_readiness,daily_activity,daily_stress`
+- Default to last 7 days
+- Summarize each metric briefly
+
 ## Error Handling
 
 When scripts return errors or data commands fail, translate the error code to a user-friendly message:
@@ -99,3 +189,5 @@ When scripts return errors or data commands fail, translate the error code to a 
 - Data fetch scripts (Phase 2+) import `ouraGet` / `ouraGetWithRetry` from `client.mjs`
 - The daily dashboard (`/oura`) fetches today's data from four endpoints (readiness, sleep, activity, stress) in parallel
 - Dashboard sections for unsynced data are omitted entirely -- if nothing has synced, a notice is shown instead
+- Query script (query.mjs) outputs JSON; all formatting and interpretation is done by Claude
+- Correlation analysis computes Pearson r in the script; Claude receives a semantic category (Strong/Moderate/No Significant) -- never show raw r-values
