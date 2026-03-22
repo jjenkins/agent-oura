@@ -10,8 +10,6 @@ import open from 'open';
 
 // --- Constants ---
 
-const CLIENT_ID = process.env.OURA_CLIENT_ID || 'YOUR_CLIENT_ID';
-const CLIENT_SECRET = process.env.OURA_CLIENT_SECRET || 'YOUR_CLIENT_SECRET';
 const PORT = 8910; // D-01: fixed port
 const REDIRECT_URI = `http://localhost:${PORT}/callback`;
 const AUTH_URL = 'https://cloud.ouraring.com/oauth/authorize'; // browser-facing (Pitfall 4)
@@ -22,13 +20,38 @@ const TIMEOUT_MS = 120_000; // D-04: 2-minute timeout
 const TOKEN_DIR = join(homedir(), '.oura'); // D-13
 const TOKEN_PATH = join(TOKEN_DIR, 'tokens.json');
 const TOKEN_TMP = join(TOKEN_DIR, 'tokens.json.tmp'); // D-16: atomic write temp file
+const CONFIG_PATH = join(homedir(), '.oura', 'config.json');
+
+// --- Internal: Read OAuth credentials from config file or environment ---
+
+async function readConfig() {
+  // D-03: env vars override config file
+  const envId = process.env.OURA_CLIENT_ID;
+  const envSecret = process.env.OURA_CLIENT_SECRET;
+  if (envId && envSecret) {
+    return { client_id: envId, client_secret: envSecret };
+  }
+
+  let raw;
+  try {
+    raw = JSON.parse(await readFile(CONFIG_PATH, 'utf8'));
+  } catch {
+    throw new Error('NOT_CONFIGURED');
+  }
+
+  if (!raw.client_id || !raw.client_secret) {
+    throw new Error('NOT_CONFIGURED');
+  }
+
+  return { client_id: raw.client_id, client_secret: raw.client_secret };
+}
 
 // --- Internal: Build auth URL ---
 
-function buildAuthUrl(state) {
+function buildAuthUrl(state, config) {
   const authUrl = new URL(AUTH_URL);
   authUrl.searchParams.set('response_type', 'code');
-  authUrl.searchParams.set('client_id', CLIENT_ID);
+  authUrl.searchParams.set('client_id', config.client_id);
   authUrl.searchParams.set('redirect_uri', REDIRECT_URI);
   authUrl.searchParams.set('scope', SCOPES);
   authUrl.searchParams.set('state', state);
@@ -37,7 +60,7 @@ function buildAuthUrl(state) {
 
 // --- Internal: Wait for OAuth callback on port 8910 ---
 
-function waitForCallback(expectedState) {
+function waitForCallback(expectedState, config) {
   return new Promise((resolve, reject) => {
     const server = createServer((req, res) => {
       const url = new URL(req.url, `http://127.0.0.1:${PORT}`);
@@ -80,7 +103,7 @@ function waitForCallback(expectedState) {
 
     // Bind to 127.0.0.1 only — NOT 0.0.0.0 (anti-pattern: do not expose to local network)
     server.listen(PORT, '127.0.0.1', () => {
-      const authUrl = buildAuthUrl(expectedState);
+      const authUrl = buildAuthUrl(expectedState, config);
 
       // D-02: open browser, fall back to stderr URL print if browser unavailable
       open(authUrl.toString()).catch(() => {
@@ -99,7 +122,7 @@ function waitForCallback(expectedState) {
 
 // --- Internal: Exchange authorization code for tokens ---
 
-async function exchangeCode(code) {
+async function exchangeCode(code, config) {
   const res = await fetch(TOKEN_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -107,8 +130,8 @@ async function exchangeCode(code) {
       grant_type: 'authorization_code',
       code,
       redirect_uri: REDIRECT_URI,
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
+      client_id: config.client_id,
+      client_secret: config.client_secret,
     }),
   });
 
@@ -123,14 +146,15 @@ async function exchangeCode(code) {
 // --- Internal: Refresh expired access token ---
 
 async function refreshTokens(refreshToken) {
+  const config = await readConfig();
   const res = await fetch(TOKEN_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
       grant_type: 'refresh_token',
       refresh_token: refreshToken,
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
+      client_id: config.client_id,
+      client_secret: config.client_secret,
     }),
   });
 
@@ -218,10 +242,11 @@ export async function readTokens() {
 // exchanges code for tokens, persists tokens, confirms identity.
 
 export async function initAuth() {
+  const config = await readConfig();
   const state = randomBytes(16).toString('hex');
 
-  const code = await waitForCallback(state);
-  const tokenResponse = await exchangeCode(code);
+  const code = await waitForCallback(state, config);
+  const tokenResponse = await exchangeCode(code, config);
   await saveTokens(tokenResponse);
 
   // D-05: validate tokens by calling personal_info; show identity (D-09: email only, no scopes)
@@ -251,9 +276,12 @@ export async function showStatus() {
       connection: 'ok',
     }));
   } catch (err) {
+    const reason = err.message === 'NOT_CONFIGURED'
+      ? 'Credentials not configured. Run /oura setup to add your Oura client_id and client_secret.'
+      : err.message;
     process.stdout.write(JSON.stringify({
       authenticated: false,
-      reason: err.message,
+      reason,
     }));
   }
 }
