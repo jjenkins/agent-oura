@@ -286,9 +286,10 @@ export async function showStatus() {
   }
 }
 
-// --- CLI entry point ---
+// --- CLI entry point (only when run directly, not when imported) ---
 
-const command = process.argv[2];
+const isDirectRun = process.argv[1]?.endsWith('auth.mjs');
+const command = isDirectRun ? process.argv[2] : undefined;
 
 if (command === 'auth') {
   initAuth().catch((err) => {
