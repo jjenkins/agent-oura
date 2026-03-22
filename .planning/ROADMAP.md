@@ -12,7 +12,7 @@ Build a distributable Claude Code skill that connects to the Oura Ring API v2. T
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Auth and API Client** - Secure OAuth2 flow, token persistence, and authenticated HTTP client with error handling
+- [x] **Phase 1: Auth and API Client** - Secure OAuth2 flow, token persistence, and authenticated HTTP client with error handling (completed 2026-03-22)
 - [ ] **Phase 2: Daily Dashboard** - Unified health dashboard showing readiness, sleep, activity, and stress scores
 - [ ] **Phase 3: Queries and Extended Data** - Natural language query routing and remaining data types (workouts, sessions, SpO2, heart rate)
 - [ ] **Phase 4: Distribution** - Installable skill packaging, setup script, and user documentation
@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 Plans:
 - [x] 01-01-PLAN.md -- OAuth2 flow, token persistence, and auto-refresh (auth.mjs)
-- [ ] 01-02-PLAN.md -- Authenticated HTTP client, error handling, and SKILL.md entry point
+- [x] 01-02-PLAN.md -- Authenticated HTTP client, error handling, and SKILL.md entry point
 
 ### Phase 2: Daily Dashboard
 **Goal**: Users can invoke the skill and immediately see today's complete health picture with scores and top contributors
@@ -72,7 +72,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth and API Client | 1/2 | In Progress|  |
+| 1. Auth and API Client | 2/2 | Complete   | 2026-03-22 |
 | 2. Daily Dashboard | 0/TBD | Not started | - |
 | 3. Queries and Extended Data | 0/TBD | Not started | - |
 | 4. Distribution | 0/TBD | Not started | - |
