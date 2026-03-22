@@ -72,33 +72,33 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Pending | Pending |
-| AUTH-02 | Pending | Pending |
-| AUTH-03 | Pending | Pending |
-| AUTH-04 | Pending | Pending |
-| DASH-01 | Pending | Pending |
-| DASH-02 | Pending | Pending |
-| DASH-03 | Pending | Pending |
-| NLQ-01 | Pending | Pending |
-| NLQ-02 | Pending | Pending |
-| NLQ-03 | Pending | Pending |
-| NLQ-04 | Pending | Pending |
-| DATA-01 | Pending | Pending |
-| DATA-02 | Pending | Pending |
-| DATA-03 | Pending | Pending |
-| DATA-04 | Pending | Pending |
-| DATA-05 | Pending | Pending |
-| ERR-01 | Pending | Pending |
-| ERR-02 | Pending | Pending |
-| ERR-03 | Pending | Pending |
-| DIST-01 | Pending | Pending |
-| DIST-02 | Pending | Pending |
+| AUTH-01 | Phase 1 | Pending |
+| AUTH-02 | Phase 1 | Pending |
+| AUTH-03 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Pending |
+| ERR-01 | Phase 1 | Pending |
+| ERR-02 | Phase 1 | Pending |
+| ERR-03 | Phase 1 | Pending |
+| DASH-01 | Phase 2 | Pending |
+| DASH-02 | Phase 2 | Pending |
+| DASH-03 | Phase 2 | Pending |
+| DATA-05 | Phase 2 | Pending |
+| NLQ-01 | Phase 3 | Pending |
+| NLQ-02 | Phase 3 | Pending |
+| NLQ-03 | Phase 3 | Pending |
+| NLQ-04 | Phase 3 | Pending |
+| DATA-01 | Phase 3 | Pending |
+| DATA-02 | Phase 3 | Pending |
+| DATA-03 | Phase 3 | Pending |
+| DATA-04 | Phase 3 | Pending |
+| DIST-01 | Phase 4 | Pending |
+| DIST-02 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 21 total
-- Mapped to phases: 0
-- Unmapped: 21
+- Mapped to phases: 21
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-21*
-*Last updated: 2026-03-21 after initial definition*
+*Last updated: 2026-03-21 after roadmap creation*
