@@ -34,6 +34,20 @@ bash install.sh
 
 This installs the skill into `.claude/skills/oura/` in your current project.
 
+### Alternative: Install from .skill file
+
+Download [`oura.skill`](https://raw.githubusercontent.com/jjenkins/agent-oura/main/oura.skill) and open it with Claude Code, or install via the CLI:
+
+```bash
+claude install-skill https://raw.githubusercontent.com/jjenkins/agent-oura/main/oura.skill
+```
+
+After installing from the `.skill` file, run `npm install` in the skill's scripts directory:
+
+```bash
+cd .claude/skills/oura/scripts && npm install
+```
+
 ## Setting Up Your Oura Developer App
 
 Before using the skill, you need to register a developer application with Oura:

@@ -1,7 +1,6 @@
 ---
 name: oura
 description: Connect to your Oura Ring and view health data. Use when the user mentions Oura, sleep score, readiness score, activity score, step count, steps, heart rate, HRV, SpO2, blood oxygen, stress data, workout tracking, or asks about their health metrics, sleep quality, recovery, or ring data. Also trigger on phrases like "how did I sleep", "show my health data", "check my ring", "what's my readiness", "how many steps", or any question about biometric, wellness, or wearable ring data.
-command: /oura
 ---
 
 # Oura Ring Skill
