@@ -31,7 +31,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. When an auth error (401/403) cannot be resolved by token refresh, the user sees clear instructions to re-authenticate
 **Plans**: 2 plans
 Plans:
-- [ ] 01-01-PLAN.md -- OAuth2 flow, token persistence, and auto-refresh (auth.mjs)
+- [x] 01-01-PLAN.md -- OAuth2 flow, token persistence, and auto-refresh (auth.mjs)
 - [ ] 01-02-PLAN.md -- Authenticated HTTP client, error handling, and SKILL.md entry point
 
 ### Phase 2: Daily Dashboard
@@ -72,7 +72,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth and API Client | 0/2 | Planning complete | - |
+| 1. Auth and API Client | 1/2 | In Progress|  |
 | 2. Daily Dashboard | 0/TBD | Not started | - |
 | 3. Queries and Extended Data | 0/TBD | Not started | - |
 | 4. Distribution | 0/TBD | Not started | - |

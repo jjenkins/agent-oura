@@ -7,10 +7,10 @@
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can authenticate via OAuth2 flow with Oura API
-- [ ] **AUTH-02**: User tokens persist across Claude Code sessions in secure local storage
-- [ ] **AUTH-03**: Expired access tokens auto-refresh using stored refresh token
-- [ ] **AUTH-04**: Single-use refresh tokens are atomically persisted on each refresh
+- [x] **AUTH-01**: User can authenticate via OAuth2 flow with Oura API
+- [x] **AUTH-02**: User tokens persist across Claude Code sessions in secure local storage
+- [x] **AUTH-03**: Expired access tokens auto-refresh using stored refresh token
+- [x] **AUTH-04**: Single-use refresh tokens are atomically persisted on each refresh
 
 ### Dashboard
 
@@ -72,10 +72,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 1 | Complete |
+| AUTH-04 | Phase 1 | Complete |
 | ERR-01 | Phase 1 | Pending |
 | ERR-02 | Phase 1 | Pending |
 | ERR-03 | Phase 1 | Pending |
