@@ -18,35 +18,44 @@ A Claude Code skill that connects to your Oura Ring, giving you a health dashboa
 
 ## Installation
 
-From your project directory:
+```bash
+npx skills add jjenkins/agent-oura
+```
+
+Then install the script dependencies:
+
+```bash
+cd .claude/skills/oura/scripts && npm install
+```
+
+### Alternative install methods
+
+<details>
+<summary>Install via shell script (includes vendored dependencies)</summary>
 
 ```bash
 curl -sL https://raw.githubusercontent.com/jjenkins/agent-oura/main/install.sh | bash
 ```
 
-Or download and review the script first:
+Or download and review first:
 
 ```bash
 curl -sL https://raw.githubusercontent.com/jjenkins/agent-oura/main/install.sh -o install.sh
-less install.sh  # review the script
+less install.sh
 bash install.sh
 ```
 
-This installs the skill into `.claude/skills/oura/` in your current project.
+This copies vendored `node_modules` so no `npm install` is needed.
+</details>
 
-### Alternative: Install from .skill file
-
-Download [`oura.skill`](https://raw.githubusercontent.com/jjenkins/agent-oura/main/oura.skill) and open it with Claude Code, or install via the CLI:
+<details>
+<summary>Install from .skill file</summary>
 
 ```bash
 claude install-skill https://raw.githubusercontent.com/jjenkins/agent-oura/main/oura.skill
-```
-
-After installing from the `.skill` file, run `npm install` in the skill's scripts directory:
-
-```bash
 cd .claude/skills/oura/scripts && npm install
 ```
+</details>
 
 ## Setting Up Your Oura Developer App
 
