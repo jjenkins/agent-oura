@@ -86,12 +86,14 @@ Plans:
   2. When dashboard.mjs receives an auth error (401/403), it reports an authentication problem — not a sync delay
   3. When profile.mjs encounters an empty ring_configuration array, it shows a pairing/setup message — not DATA_NOT_SYNCED
   4. E2E flows "Daily Dashboard" and "Profile" no longer have degraded status
-**Plans**: 0 plans
+**Plans**: 1 plans
+Plans:
+- [ ] 05-01-PLAN.md -- Remove orphaned formatError, fix dashboard auth masking, fix profile ring pairing message
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -99,4 +101,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 2. Daily Dashboard | 2/2 | Complete   | 2026-03-22 |
 | 3. Queries and Extended Data | 2/2 | Complete | 2026-03-22 |
 | 4. Distribution | 2/2 | Complete   | 2026-03-22 |
-| 5. Integration Cleanup | 0/0 | Not Started | - |
+| 5. Integration Cleanup | 0/1 | Not Started | - |
