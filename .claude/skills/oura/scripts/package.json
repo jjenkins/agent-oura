@@ -1,0 +1,10 @@
+{
+  "name": "oura-skill-scripts",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Scripts for the Oura Claude Code skill",
+  "dependencies": {
+    "open": "^11.0.0"
+  }
+}
