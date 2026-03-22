@@ -58,7 +58,10 @@ Plans:
   2. User can ask a trend question like "how has my readiness trended over the last 30 days?" and receive a time-series summary
   3. User can ask correlation questions like "does my sleep score affect my readiness the next day?" and receive a cross-metric analysis
   4. User can retrieve workout summaries, session data, SpO2 averages, and heart rate data through natural language or direct commands
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 03-01-PLAN.md -- Generic query script (single + multi-endpoint modes, stats, pagination)
+- [ ] 03-02-PLAN.md -- Correlation mode and SKILL.md query routing instructions
 
 ### Phase 4: Distribution
 **Goal**: Any Claude Code user can install and configure the skill from scratch without guidance beyond the included documentation
@@ -78,5 +81,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. Auth and API Client | 2/3 | Gap closure | - |
 | 2. Daily Dashboard | 2/2 | Complete   | 2026-03-22 |
-| 3. Queries and Extended Data | 0/TBD | Not started | - |
+| 3. Queries and Extended Data | 0/2 | Planning complete | - |
 | 4. Distribution | 0/TBD | Not started | - |
