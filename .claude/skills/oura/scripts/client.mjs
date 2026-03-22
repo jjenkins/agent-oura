@@ -1,5 +1,5 @@
 // Oura API authenticated HTTP client with error classification and retry logic.
-// Exports: ouraGet, ouraGetWithRetry, formatError
+// Exports: ouraGet, ouraGetWithRetry
 
 import { readTokens } from './auth.mjs';
 
@@ -140,31 +140,5 @@ export async function ouraGetWithRetry(path, params = {}, attempt = 0) {
 
     // All other errors: re-throw as-is
     throw err;
-  }
-}
-
-// --- Exported: formatError ---
-// Maps error code strings to user-friendly messages for callers that catch errors.
-
-export function formatError(error) {
-  switch (error.message) {
-    case 'RATE_LIMITED':
-      return 'Rate limited by Oura API. Try again in a few minutes.';
-    case 'AUTH_EXPIRED':
-      return 'Authentication expired. Run /oura auth to re-authenticate.';
-    case 'NOT_AUTHENTICATED':
-      return 'Not authenticated. Run /oura auth to connect your Oura account.';
-    case 'REFRESH_FAILED':
-      return 'Token refresh failed. Run /oura auth to re-authenticate.';
-    case 'MEMBERSHIP_REQUIRED':
-      return 'This data requires an active Oura membership.';
-    case 'APP_UPDATE_REQUIRED':
-      return 'Please update your Oura app to the latest version.';
-    case 'AUTH_FORBIDDEN':
-      return 'Access denied. Try running /oura auth to re-authenticate with all scopes.';
-    case 'DATA_NOT_SYNCED':
-      return 'Data not yet synced. Check the Oura app and try again in a few minutes.';
-    default:
-      return 'Oura API error: ' + error.message;
   }
 }
