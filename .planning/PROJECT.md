@@ -12,7 +12,7 @@ Users can instantly see their daily health status and ask questions about their 
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] OAuth2 authentication flow for Oura API (multi-user, distributable) — Validated in Phase 01: auth-and-api-client
 
 ### Active
 
@@ -54,8 +54,8 @@ Users can instantly see their daily health status and ask questions about their 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| OAuth2 over PAT | PATs are deprecated by Oura; OAuth2 required for multi-user distribution | — Pending |
-| Skill-creator pattern | User wants distributable skill, not a standalone app | — Pending |
+| OAuth2 over PAT | PATs are deprecated by Oura; OAuth2 required for multi-user distribution | Implemented in Phase 01 |
+| Skill-creator pattern | User wants distributable skill, not a standalone app | SKILL.md entry point created in Phase 01 |
 | Dashboard + query dual mode | Dashboard for quick check-in, NL queries for deeper analysis | — Pending |
 
 ## Evolution
@@ -76,4 +76,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-21 after initialization*
+*Last updated: 2026-03-22 after Phase 01 completion*
