@@ -1,0 +1,104 @@
+# Requirements: Agent Oura
+
+**Defined:** 2026-03-21
+**Core Value:** Users can instantly see their daily health status and ask questions about their Oura data without leaving Claude Code.
+
+## v1 Requirements
+
+### Authentication
+
+- [ ] **AUTH-01**: User can authenticate via OAuth2 flow with Oura API
+- [ ] **AUTH-02**: User tokens persist across Claude Code sessions in secure local storage
+- [ ] **AUTH-03**: Expired access tokens auto-refresh using stored refresh token
+- [ ] **AUTH-04**: Single-use refresh tokens are atomically persisted on each refresh
+
+### Dashboard
+
+- [ ] **DASH-01**: User can invoke skill and see today's readiness, sleep, activity, and stress scores
+- [ ] **DASH-02**: Dashboard shows top contributors for readiness and sleep scores
+- [ ] **DASH-03**: Dashboard gracefully handles missing data when today's scores haven't synced yet
+
+### Natural Language Queries
+
+- [ ] **NLQ-01**: User can ask natural-language questions about their Oura data
+- [ ] **NLQ-02**: Skill routes questions to the correct API endpoint and date range
+- [ ] **NLQ-03**: User can query trend analysis over configurable time periods
+- [ ] **NLQ-04**: User can ask correlation questions across multiple metrics
+
+### Extended Data
+
+- [ ] **DATA-01**: User can view workout summaries (type, duration, intensity)
+- [ ] **DATA-02**: User can view session data (guided/unguided sessions)
+- [ ] **DATA-03**: User can view SpO2 (blood oxygen) data
+- [ ] **DATA-04**: User can view heart rate data (5-minute intervals, ISO 8601 datetime params)
+- [ ] **DATA-05**: User can view ring configuration and personal profile info
+
+### Error Handling
+
+- [ ] **ERR-01**: Rate limit (429) responses are handled with retry logic and user feedback
+- [ ] **ERR-02**: Auth errors (401/403) trigger auto-refresh or clear re-auth instructions
+- [ ] **ERR-03**: Missing data scenarios show helpful messages (sync delay, membership required)
+
+### Distribution
+
+- [ ] **DIST-01**: Skill is installable by other Claude Code users via skill-creator pattern
+- [ ] **DIST-02**: Setup instructions guide users through OAuth app registration and credential configuration
+
+## v2 Requirements
+
+### Advanced Analysis
+
+- **ADV-01**: User can compare metrics across custom date ranges side-by-side
+- **ADV-02**: User receives personalized health recommendations based on trends
+
+### Extended Features
+
+- **EXT-01**: Sandbox/test mode for developers without Oura ring
+- **EXT-02**: Sleep detail drill-down with interval HR, HRV, and sleep stage data
+- **EXT-03**: Multi-user credential management for household use
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Webhook/subscription management | Requires persistent server; out of scope for CLI skill |
+| Writing data back to Oura | Oura API v2 is read-only for health data |
+| Web UI or mobile companion | This is a Claude Code skill only; Oura app covers GUI |
+| Local database / data warehouse | Adds complexity; 60-day cache limit constraint; fresh-fetch is simpler |
+| Rich ASCII charts / sparklines | Fragile across terminals; Claude's text formatting is the primary interface |
+| Real-time streaming | Oura data updates periodically via sync, not in real-time |
+
+## Traceability
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| AUTH-01 | Pending | Pending |
+| AUTH-02 | Pending | Pending |
+| AUTH-03 | Pending | Pending |
+| AUTH-04 | Pending | Pending |
+| DASH-01 | Pending | Pending |
+| DASH-02 | Pending | Pending |
+| DASH-03 | Pending | Pending |
+| NLQ-01 | Pending | Pending |
+| NLQ-02 | Pending | Pending |
+| NLQ-03 | Pending | Pending |
+| NLQ-04 | Pending | Pending |
+| DATA-01 | Pending | Pending |
+| DATA-02 | Pending | Pending |
+| DATA-03 | Pending | Pending |
+| DATA-04 | Pending | Pending |
+| DATA-05 | Pending | Pending |
+| ERR-01 | Pending | Pending |
+| ERR-02 | Pending | Pending |
+| ERR-03 | Pending | Pending |
+| DIST-01 | Pending | Pending |
+| DIST-02 | Pending | Pending |
+
+**Coverage:**
+- v1 requirements: 21 total
+- Mapped to phases: 0
+- Unmapped: 21
+
+---
+*Requirements defined: 2026-03-21*
+*Last updated: 2026-03-21 after initial definition*
