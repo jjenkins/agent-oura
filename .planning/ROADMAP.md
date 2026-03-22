@@ -44,7 +44,10 @@ Plans:
   2. The dashboard shows the top contributing factors for readiness and sleep scores alongside the scores themselves
   3. When today's data has not yet synced, the dashboard shows the most recent available data with a clear indication of the date rather than an error
   4. User can retrieve their personal profile and ring configuration information
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 02-01-PLAN.md -- Daily health dashboard script (readiness, sleep, activity, stress)
+- [ ] 02-02-PLAN.md -- Profile script and SKILL.md command updates
 
 ### Phase 3: Queries and Extended Data
 **Goal**: Users can ask natural-language questions about their Oura data and access all data types including workouts, sessions, SpO2, and heart rate
@@ -74,6 +77,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Auth and API Client | 2/3 | Gap closure | - |
-| 2. Daily Dashboard | 0/TBD | Not started | - |
+| 2. Daily Dashboard | 0/2 | Planning complete | - |
 | 3. Queries and Extended Data | 0/TBD | Not started | - |
 | 4. Distribution | 0/TBD | Not started | - |
