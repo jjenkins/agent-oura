@@ -1,19 +1,23 @@
 // Oura profile script — fetches personal info and ring configuration.
 // Outputs formatted plaintext to stdout for Claude to read and present.
 
-import { ouraGetWithRetry } from './client.mjs';
+import { ouraGet, ouraGetWithRetry } from './client.mjs';
 
 try {
-  // Fetch both endpoints in parallel — both are required; if either fails, the whole command errors.
-  const [personalInfo, ringConfig] = await Promise.all([
+  // Fetch both endpoints in parallel — personal_info is required; ring_configuration
+  // may return empty data[] if no ring is paired (DATA_NOT_SYNCED typed error).
+  const [personalInfo, ringConfigRaw] = await Promise.all([
     ouraGetWithRetry('/usercollection/personal_info'),
-    ouraGetWithRetry('/usercollection/ring_configuration'),
+    ouraGet('/usercollection/ring_configuration').catch(err => {
+      if (err.message === 'DATA_NOT_SYNCED') return { data: [] };
+      throw err; // re-throw auth/rate errors so they propagate to outer catch
+    }),
   ]);
 
   // personal_info is a direct object (no data: [] wrapper).
   // ring_configuration returns { data: [...] } — sort by set_up_at and take most recent.
-  const ring = (ringConfig.data && ringConfig.data.length > 0)
-    ? ringConfig.data.sort((a, b) => new Date(a.set_up_at) - new Date(b.set_up_at)).at(-1)
+  const ring = (ringConfigRaw.data && ringConfigRaw.data.length > 0)
+    ? ringConfigRaw.data.sort((a, b) => new Date(a.set_up_at) - new Date(b.set_up_at)).at(-1)
     : null;
 
   const lines = ['=== Oura Profile ===', ''];
@@ -33,6 +37,9 @@ try {
     lines.push(`  Firmware: ${ring.firmware_version}`);
     lines.push(`  Size: ${ring.size}`);
     if (ring.set_up_at) lines.push(`  Setup date: ${ring.set_up_at.split('T')[0]}`);
+  } else {
+    lines.push('', 'Ring Configuration:');
+    lines.push('  No ring paired. Open the Oura app to pair your ring.');
   }
 
   process.stdout.write(lines.join('\n') + '\n');
