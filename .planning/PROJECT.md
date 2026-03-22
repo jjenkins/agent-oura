@@ -20,10 +20,13 @@ Users can instantly see their daily health status and ask questions about their 
 - [x] Date range querying with sensible defaults — Validated in Phase 03: queries-and-extended-data
 - [x] Trend analysis and insights over time periods — Validated in Phase 03: queries-and-extended-data
 
+- [x] Installable as a Claude Code skill via skill-creator pattern — Validated in Phase 04: distribution
+- [x] Per-user credential configuration (setup.mjs + ~/.oura/config.json) — Validated in Phase 04: distribution
+- [x] One-command installer script for distribution — Validated in Phase 04: distribution
+
 ### Active
 
-- [ ] OAuth2 authentication flow for Oura API (multi-user, distributable)
-- [ ] Installable as a Claude Code skill via skill-creator pattern
+(none — all v1.0 requirements validated)
 
 ### Out of Scope
 
@@ -56,7 +59,9 @@ Users can instantly see their daily health status and ask questions about their 
 |----------|-----------|---------|
 | OAuth2 over PAT | PATs are deprecated by Oura; OAuth2 required for multi-user distribution | Implemented in Phase 01 |
 | Skill-creator pattern | User wants distributable skill, not a standalone app | SKILL.md entry point created in Phase 01 |
-| Dashboard + query dual mode | Dashboard for quick check-in, NL queries for deeper analysis | — Pending |
+| Dashboard + query dual mode | Dashboard for quick check-in, NL queries for deeper analysis | Implemented in Phases 02-03 |
+| Per-user config file at ~/.oura/config.json | Enables distribution — each user configures their own credentials | Implemented in Phase 04 |
+| Git clone installer over curl file enumeration | All Claude Code users have git; simpler and more maintainable | Implemented in Phase 04 |
 
 ## Evolution
 
@@ -76,4 +81,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-22 after Phase 01 completion*
+*Last updated: 2026-03-22 after Phase 04 completion (v1.0 milestone complete)*
