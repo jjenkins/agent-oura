@@ -41,8 +41,8 @@
 
 ### Distribution
 
-- [ ] **DIST-01**: Skill is installable by other Claude Code users via skill-creator pattern
-- [ ] **DIST-02**: Setup instructions guide users through OAuth app registration and credential configuration
+- [x] **DIST-01**: Skill is installable by other Claude Code users via skill-creator pattern
+- [x] **DIST-02**: Setup instructions guide users through OAuth app registration and credential configuration
 
 ## v2 Requirements
 
@@ -91,8 +91,8 @@
 | DATA-02 | Phase 3 | Complete |
 | DATA-03 | Phase 3 | Complete |
 | DATA-04 | Phase 3 | Complete |
-| DIST-01 | Phase 4 | Pending |
-| DIST-02 | Phase 4 | Pending |
+| DIST-01 | Phase 4 | Complete |
+| DIST-02 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 21 total

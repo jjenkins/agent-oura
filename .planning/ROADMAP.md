@@ -72,7 +72,7 @@ Plans:
   2. The skill is installable via the Claude Code skill-creator pattern and appears as a usable skill after installation
 **Plans**: 2 plans
 Plans:
-- [ ] 04-01-PLAN.md -- Credential config system (setup.mjs, auth.mjs refactor, SKILL.md update)
+- [x] 04-01-PLAN.md -- Credential config system (setup.mjs, auth.mjs refactor, SKILL.md update)
 - [ ] 04-02-PLAN.md -- Installer script (install.sh) and README documentation
 
 ## Progress
@@ -85,4 +85,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 1. Auth and API Client | 3/3 | Complete | 2026-03-22 |
 | 2. Daily Dashboard | 2/2 | Complete   | 2026-03-22 |
 | 3. Queries and Extended Data | 2/2 | Complete | 2026-03-22 |
-| 4. Distribution | 0/2 | Not started | - |
+| 4. Distribution | 1/2 | In Progress|  |
