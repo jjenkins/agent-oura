@@ -35,6 +35,26 @@ try {
   const activity  = extractRecord(activityResult);
   const stress    = extractRecord(stressResult);
 
+  // INT-02: Detect auth errors before the all-null guard.
+  // Auth failures (401/403/no-token) cause all four ouraGet calls to reject.
+  // Without this check, auth errors are indistinguishable from sync delays.
+  const AUTH_ERRORS = ['AUTH_EXPIRED', 'AUTH_FORBIDDEN', 'NOT_AUTHENTICATED', 'REFRESH_FAILED'];
+  const authError = [readinessResult, sleepResult, activityResult, stressResult]
+    .filter(r => r.status === 'rejected')
+    .map(r => r.reason?.message)
+    .find(msg => AUTH_ERRORS.includes(msg));
+
+  if (authError) {
+    if (authError === 'AUTH_EXPIRED' || authError === 'REFRESH_FAILED') {
+      process.stderr.write('Authentication expired. Run /oura auth to re-authenticate.\n');
+    } else if (authError === 'AUTH_FORBIDDEN') {
+      process.stderr.write('Access denied. Run /oura auth to re-authenticate with all required scopes.\n');
+    } else {
+      process.stderr.write('Not authenticated. Run /oura auth to connect your Oura account.\n');
+    }
+    process.exit(1);
+  }
+
   // D-11: if nothing has synced at all, show a single notice and exit cleanly.
   if (!readiness && !sleep && !activity && !stress) {
     process.stdout.write("Today's data hasn't synced yet. Check your Oura app.\n");
