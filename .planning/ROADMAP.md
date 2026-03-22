@@ -29,7 +29,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. When an access token expires, the skill transparently refreshes it and continues without user intervention
   4. When the Oura API returns a 429 rate limit response, the skill retries with backoff and reports progress to the user rather than failing silently
   5. When an auth error (401/403) cannot be resolved by token refresh, the user sees clear instructions to re-authenticate
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 01-01-PLAN.md -- OAuth2 flow, token persistence, and auto-refresh (auth.mjs)
+- [ ] 01-02-PLAN.md -- Authenticated HTTP client, error handling, and SKILL.md entry point
 
 ### Phase 2: Daily Dashboard
 **Goal**: Users can invoke the skill and immediately see today's complete health picture with scores and top contributors
@@ -65,11 +68,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth and API Client | 0/TBD | Not started | - |
+| 1. Auth and API Client | 0/2 | Planning complete | - |
 | 2. Daily Dashboard | 0/TBD | Not started | - |
 | 3. Queries and Extended Data | 0/TBD | Not started | - |
 | 4. Distribution | 0/TBD | Not started | - |
