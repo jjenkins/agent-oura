@@ -47,8 +47,15 @@ cp "$TMPDIR/repo/.claude/skills/oura/scripts/package.json" "$SKILL_DIR/scripts/"
 cp "$TMPDIR/repo/.claude/skills/oura/scripts/package-lock.json" "$SKILL_DIR/scripts/" 2>/dev/null || true
 
 # --- Install npm dependencies ---
-echo "Installing dependencies..."
-(cd "$SKILL_DIR/scripts" && npm install --silent --no-fund --no-audit)
+# node_modules is vendored in the repo, so copy it directly if available.
+# Fall back to npm install if the vendored copy is missing.
+if [ -d "$TMPDIR/repo/.claude/skills/oura/scripts/node_modules" ]; then
+  echo "Copying vendored dependencies..."
+  cp -r "$TMPDIR/repo/.claude/skills/oura/scripts/node_modules" "$SKILL_DIR/scripts/"
+else
+  echo "Installing dependencies..."
+  (cd "$SKILL_DIR/scripts" && npm install --silent --no-fund --no-audit)
+fi
 
 echo ""
 echo "Skill installed successfully at $SKILL_DIR/"
