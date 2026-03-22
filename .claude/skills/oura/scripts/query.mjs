@@ -33,13 +33,23 @@ function getDateRange(startArg, endArg) {
   defaultStart.setDate(defaultStart.getDate() - 7);
   const start = startArg ? startArg : defaultStart.toLocaleDateString('en-CA');
 
+  // Oura API date filtering is start-inclusive, end-exclusive.
+  // When start === end, bump end by one day so the single day is included.
+  let effectiveEnd = end;
+  if (start === effectiveEnd) {
+    // Add one day using string parsing to avoid UTC vs local timezone issues.
+    const [y, m, d] = effectiveEnd.split('-').map(Number);
+    const next = new Date(y, m - 1, d + 1); // local date constructor
+    effectiveEnd = next.toLocaleDateString('en-CA');
+  }
+
   const msPerDay = 86_400_000;
-  const daysDiff = (new Date(end) - new Date(start)) / msPerDay;
+  const daysDiff = (new Date(effectiveEnd) - new Date(start)) / msPerDay;
   const warning = daysDiff > 60
     ? `Date range (${Math.round(daysDiff)} days) exceeds Oura API ~60-day limit. Results may be incomplete.`
     : null;
 
-  return { start, end, warning };
+  return { start, end: effectiveEnd, warning };
 }
 
 // --- Endpoint-aware param builder ---
