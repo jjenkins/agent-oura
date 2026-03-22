@@ -32,7 +32,8 @@ key-files:
   created:
     - .claude/skills/oura/scripts/client.mjs
     - .claude/skills/oura/SKILL.md
-  modified: []
+  modified:
+    - .claude/skills/oura/scripts/auth.mjs (null-email fix in personal_info response)
 
 key-decisions:
   - "Split ouraGet (single request) and ouraGetWithRetry (retry wrapper) — separation of concerns allows callers to opt out of retry when appropriate"
@@ -42,27 +43,28 @@ key-decisions:
 requirements-completed: [ERR-01, ERR-02, ERR-03]
 
 # Metrics
-duration: 4min
+duration: ~15min
 completed: 2026-03-22
 ---
 
 # Phase 01 Plan 02: API Client and SKILL.md Summary
 
-**Authenticated HTTP client with typed error classification (429/401/403/426) and exponential backoff retry, plus SKILL.md registering the /oura slash command in Claude Code**
+**Authenticated HTTP client with typed error classification (429/401/403/426) and exponential backoff retry, plus SKILL.md registering the /oura slash command — end-to-end OAuth flow verified with real Oura credentials**
 
 ## Performance
 
-- **Duration:** ~4 min
+- **Duration:** ~15 min
 - **Started:** 2026-03-22T02:03:58Z
-- **Completed:** 2026-03-22T02:07:31Z
-- **Tasks:** 2 auto (+ 1 checkpoint pending human verification)
-- **Files modified:** 2 created
+- **Completed:** 2026-03-22T02:16:00Z
+- **Tasks:** 3 (2 auto + 1 human-verify checkpoint, approved)
+- **Files modified:** 2 created, 1 modified (auth.mjs null-email fix)
 
 ## Accomplishments
 
 - Implemented `client.mjs` with `ouraGet()` for authenticated requests, `ouraGetWithRetry()` for exponential backoff retry (up to 3 attempts, max 30s delay), and `formatError()` for user-friendly error strings
 - Full error classification: 429 reads `Retry-After` header, 401 triggers single token refresh retry, 403 distinguishes membership vs scope errors via response body, 426 maps to app update message
 - Created `SKILL.md` with YAML frontmatter registering `/oura` command, auth/status command instructions, error handling table, and notes on token storage and Node.js 22+ requirement
+- Human-verified end-to-end OAuth flow with real Oura credentials; tokens stored correctly at `~/.oura/tokens.json` with 0600 permissions
 
 ## Task Commits
 
@@ -70,13 +72,16 @@ Each task was committed atomically:
 
 1. **Task 1: Implement client.mjs** - `53c2275` (feat)
 2. **Task 2: Create SKILL.md** - `a098c84` (feat)
+3. **Task 3: Verify OAuth flow end-to-end** - APPROVED by user
+4. **Deviation: Fix null email from personal_info** - `8955edd` (fix)
 
-**Task 3 (checkpoint): Awaiting human verification of OAuth flow end-to-end**
+**Plan metadata:** (final commit to follow)
 
 ## Files Created/Modified
 
-- `.claude/skills/oura/scripts/client.mjs` — Authenticated HTTP client (147 lines)
-- `.claude/skills/oura/SKILL.md` — Skill registration for /oura command (70 lines)
+- `.claude/skills/oura/scripts/client.mjs` — Authenticated HTTP client with ouraGet, ouraGetWithRetry, formatError (147 lines)
+- `.claude/skills/oura/SKILL.md` — Skill registration for /oura command with auth/status instructions and error table (70 lines)
+- `.claude/skills/oura/scripts/auth.mjs` — Null-safe email fallback when personal_info returns null (modified)
 
 ## Decisions Made
 
@@ -86,22 +91,40 @@ Each task was committed atomically:
 
 ## Deviations from Plan
 
-None — plan executed exactly as written.
+### Auto-fixed Issues
+
+**1. [Rule 1 - Bug] Fixed null email from Oura personal_info endpoint**
+
+- **Found during:** Task 3 (human-verify — end-to-end OAuth test with real credentials)
+- **Issue:** Oura's `/v2/personal_info` endpoint returns `null` for `email` on some accounts; auth.mjs displayed "Authenticated as null" instead of the user's email
+- **Fix:** Added null-safe fallback in auth.mjs to display `<email not available>` when email field is null
+- **Files modified:** `.claude/skills/oura/scripts/auth.mjs`
+- **Verification:** User confirmed authentication output is correct after fix
+- **Committed in:** `8955edd`
+
+---
+
+**Total deviations:** 1 auto-fixed (Rule 1 - bug)
+**Impact on plan:** Null-safe email handling is a correctness fix. No scope creep.
+
+## Issues Encountered
+
+None beyond the null-email edge case documented above. All acceptance criteria met.
 
 ## Known Stubs
 
-None — client.mjs is fully functional. The only stubs in this phase are inherited from Plan 01: `CLIENT_ID = 'YOUR_CLIENT_ID'` and `CLIENT_SECRET = 'YOUR_CLIENT_SECRET'` in `auth.mjs`. These must be replaced (or env vars set) before the OAuth flow works end-to-end. This is the subject of Task 3 (checkpoint).
+None — client.mjs is fully functional and wired to auth.mjs. SKILL.md references real script paths.
 
-## Pending: Human Verification (Task 3)
+Note: auth.mjs carries `CLIENT_ID = 'YOUR_CLIENT_ID'` / `CLIENT_SECRET = 'YOUR_CLIENT_SECRET'` fallback constants (documented in 01-01-SUMMARY.md). These are overridden by `OURA_CLIENT_ID` / `OURA_CLIENT_SECRET` env vars, which the user set for the verified OAuth flow.
 
-Task 3 is a `checkpoint:human-verify` gate requiring end-to-end OAuth flow verification:
+## Next Phase Readiness
 
-1. Register Oura developer app at https://cloud.ouraring.com/oauth/applications with redirect URI `http://localhost:8910/callback`
-2. Set `OURA_CLIENT_ID` and `OURA_CLIENT_SECRET` env vars
-3. Run `node auth.mjs auth` and confirm browser opens, terminal shows "Authenticated as [email]"
-4. Run `node auth.mjs status` and confirm `authenticated: true` in JSON output
-5. Verify `~/.oura/tokens.json` with `-rw-------` permissions
+- `ouraGetWithRetry(path, params)` ready for Phase 2 dashboard scripts to import from `client.mjs`
+- All Oura error codes (429, 401, 403, 426) produce actionable user messages via `formatError()`
+- SKILL.md installed; `/oura auth` and `/oura status` commands are functional
+- Human-verified: real OAuth flow works end-to-end with tokens at `~/.oura/tokens.json` with 0600 permissions
+- Phase 01 complete — all 4 AUTH requirements and all 3 ERR requirements fulfilled
 
 ---
 *Phase: 01-auth-and-api-client*
-*Completed: 2026-03-22 (Tasks 1-2; Task 3 pending verification)*
+*Completed: 2026-03-22*

@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: "Checkpoint: Task 3 human-verify for 01-02 PLAN.md"
-last_updated: "2026-03-22T02:08:19.316Z"
+stopped_at: Completed 01-auth-and-api-client 01-02-PLAN.md
+last_updated: "2026-03-22T02:20:35.203Z"
 progress:
   total_phases: 4
   completed_phases: 1
@@ -47,6 +47,7 @@ Plan: 2 of 2
 
 *Updated after each plan completion*
 | Phase 01-auth-and-api-client P01 | 8 | 2 tasks | 4 files |
+| Phase 01-auth-and-api-client P02 | 15 | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,9 @@ Recent decisions affecting current work:
 - [Phase 01-auth-and-api-client]: Added OURA_CLIENT_ID/OURA_CLIENT_SECRET env var overrides for power users
 - [Phase 01-auth-and-api-client]: Used plain fs.rename() for atomic token writes instead of write-file-atomic package
 - [Phase 01-auth-and-api-client]: Split ouraGet (single request) and ouraGetWithRetry (retry wrapper) for separation of concerns
+- [Phase 01-auth-and-api-client]: Split ouraGet (single request) and ouraGetWithRetry (retry wrapper) for separation of concerns
+- [Phase 01-auth-and-api-client]: AUTH_EXPIRED retry calls readTokens() rather than raw refresh — reuses single-use token handling in auth.mjs
+- [Phase 01-auth-and-api-client]: 403 body inspection distinguishes MEMBERSHIP_REQUIRED from AUTH_FORBIDDEN — different user actions required
 
 ### Pending Todos
 
@@ -76,6 +80,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T02:08:15.710Z
-Stopped at: Checkpoint: Task 3 human-verify for 01-02 PLAN.md
+Last session: 2026-03-22T02:20:35.199Z
+Stopped at: Completed 01-auth-and-api-client 01-02-PLAN.md
 Resume file: None
