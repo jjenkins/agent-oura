@@ -27,7 +27,21 @@ export async function ouraGet(path, params = {}) {
   });
 
   if (res.ok) {
-    return res.json();
+    const json = await res.json();
+
+    // ERR-03: Detect empty data arrays indicating data has not synced yet.
+    // Oura returns 200 with {"data": []} when the ring hasn't uploaded data
+    // for the requested period. Only flag responses that have a `data` key
+    // that is an empty array — endpoints like /personal_info return objects
+    // without a `data` key and should pass through unchanged.
+    if (Array.isArray(json.data) && json.data.length === 0) {
+      throw Object.assign(
+        new Error('DATA_NOT_SYNCED'),
+        { response: json }
+      );
+    }
+
+    return json;
   }
 
   // --- Error classification ---
@@ -117,6 +131,13 @@ export async function ouraGetWithRetry(path, params = {}, attempt = 0) {
       throw new Error('Please update your Oura app to the latest version to access this data.');
     }
 
+    // DATA_NOT_SYNCED (ERR-03): empty data array from 200 response
+    if (err.message === 'DATA_NOT_SYNCED') {
+      throw new Error(
+        'Data not yet synced. Check the Oura app and try again in a few minutes.'
+      );
+    }
+
     // All other errors: re-throw as-is
     throw err;
   }
@@ -141,6 +162,8 @@ export function formatError(error) {
       return 'Please update your Oura app to the latest version.';
     case 'AUTH_FORBIDDEN':
       return 'Access denied. Try running /oura auth to re-authenticate with all scopes.';
+    case 'DATA_NOT_SYNCED':
+      return 'Data not yet synced. Check the Oura app and try again in a few minutes.';
     default:
       return 'Oura API error: ' + error.message;
   }
