@@ -227,9 +227,10 @@ export async function initAuth() {
   // D-05: validate tokens by calling personal_info; show identity (D-09: email only, no scopes)
   const tokens = await readTokens();
   const userInfo = await fetchPersonalInfo(tokens.access_token);
-  const email = userInfo.email || 'Unknown';
+  const identity = userInfo.email || userInfo.age?.toString() || null;
+  const label = identity ? `Authenticated as ${identity}` : 'Authenticated successfully';
 
-  process.stdout.write(`Authenticated as ${email}\n`);
+  process.stdout.write(`${label}\n`);
 
   return userInfo;
 }
@@ -245,7 +246,7 @@ export async function showStatus() {
 
     process.stdout.write(JSON.stringify({
       authenticated: true,
-      email: userInfo.email || 'Unknown',
+      email: userInfo.email || null,
       token_expires_in_minutes: expiresInMinutes,
       connection: 'ok',
     }));
