@@ -61,7 +61,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 03-01-PLAN.md -- Generic query script (single + multi-endpoint modes, stats, pagination)
-- [ ] 03-02-PLAN.md -- Correlation mode and SKILL.md query routing instructions
+- [x] 03-02-PLAN.md -- Correlation mode and SKILL.md query routing instructions
 
 ### Phase 4: Distribution
 **Goal**: Any Claude Code user can install and configure the skill from scratch without guidance beyond the included documentation

@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 03-queries-and-extended-data 03-01-PLAN.md
-last_updated: "2026-03-22T05:48:15.991Z"
+stopped_at: Completed 03-queries-and-extended-data 03-02-PLAN.md
+last_updated: "2026-03-22T05:51:58.174Z"
 progress:
   total_phases: 4
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 7
-  completed_plans: 6
+  completed_plans: 7
 ---
 
 # Project State
@@ -52,6 +52,7 @@ Plan: 2 of 2
 | Phase 02-daily-dashboard P01 | 1min | 1 tasks | 1 files |
 | Phase 02-daily-dashboard P02 | 83s | 2 tasks | 2 files |
 | Phase 03-queries-and-extended-data P01 | 1 | 1 tasks | 1 files |
+| Phase 03-queries-and-extended-data P02 | 1min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,8 @@ Recent decisions affecting current work:
 - [Phase 03-queries-and-extended-data]: Used getArg() manual arg parser in query.mjs — no minimist/yargs needed for 5 named flags
 - [Phase 03-queries-and-extended-data]: processSingleEndpoint helper extracts shared logic for reuse by multi-endpoint mode in query.mjs
 - [Phase 03-queries-and-extended-data]: Correlation mode in query.mjs exits cleanly with placeholder JSON (exit 0) to facilitate Plan 02 addition
+- [Phase 03-queries-and-extended-data]: pearson() returns null for degenerate inputs so correlationCategory() produces 'Insufficient Data' cleanly
+- [Phase 03-queries-and-extended-data]: SKILL.md instructs Claude to never show raw r-value — only the semantic correlation category string
 
 ### Pending Todos
 
@@ -95,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T05:48:15.987Z
-Stopped at: Completed 03-queries-and-extended-data 03-01-PLAN.md
+Last session: 2026-03-22T05:51:58.170Z
+Stopped at: Completed 03-queries-and-extended-data 03-02-PLAN.md
 Resume file: None
