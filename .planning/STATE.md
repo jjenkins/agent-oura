@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 04-distribution 04-01-PLAN.md
-last_updated: "2026-03-22T16:18:13.791Z"
+stopped_at: Checkpoint 04-distribution 04-02-PLAN.md Task 3 (human-verify)
+last_updated: "2026-03-22T16:22:17.636Z"
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # Project State
@@ -54,6 +54,7 @@ Plan: 2 of 2
 | Phase 03-queries-and-extended-data P01 | 1 | 1 tasks | 1 files |
 | Phase 03-queries-and-extended-data P02 | 1min | 2 tasks | 2 files |
 | Phase 04-distribution P01 | 3min | 2 tasks | 4 files |
+| Phase 04-distribution P02 | 3min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,8 @@ Recent decisions affecting current work:
 - [Phase 04-distribution]: Per-user config file at ~/.oura/config.json replaces placeholder constants in auth.mjs — enables distribution to other users
 - [Phase 04-distribution]: Env var override (OURA_CLIENT_ID/OURA_CLIENT_SECRET) preserved for power users who prefer environment-based config
 - [Phase 04-distribution]: Atomic write pattern (tmp -> rename -> chmod 0600) reused from saveTokens for config.json write in setup.mjs
+- [Phase 04-distribution]: install.sh uses git clone --depth=1 as primary download method — simpler than curl-per-file; all Claude Code users have git
+- [Phase 04-distribution]: README documents both curl pipe and download-and-review install methods — gives security-conscious users a review path
 
 ### Pending Todos
 
@@ -102,6 +105,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T16:18:13.785Z
-Stopped at: Completed 04-distribution 04-01-PLAN.md
+Last session: 2026-03-22T16:22:17.631Z
+Stopped at: Checkpoint 04-distribution 04-02-PLAN.md Task 3 (human-verify)
 Resume file: None

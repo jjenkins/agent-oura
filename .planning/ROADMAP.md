@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 1: Auth and API Client** - Secure OAuth2 flow, token persistence, and authenticated HTTP client with error handling
 - [x] **Phase 2: Daily Dashboard** - Unified health dashboard showing readiness, sleep, activity, and stress scores (completed 2026-03-22)
 - [ ] **Phase 3: Queries and Extended Data** - Natural language query routing and remaining data types (workouts, sessions, SpO2, heart rate)
-- [ ] **Phase 4: Distribution** - Installable skill packaging, setup script, and user documentation
+- [x] **Phase 4: Distribution** - Installable skill packaging, setup script, and user documentation (completed 2026-03-22)
 
 ## Phase Details
 
@@ -73,7 +73,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 04-01-PLAN.md -- Credential config system (setup.mjs, auth.mjs refactor, SKILL.md update)
-- [ ] 04-02-PLAN.md -- Installer script (install.sh) and README documentation
+- [x] 04-02-PLAN.md -- Installer script (install.sh) and README documentation
 
 ## Progress
 
@@ -85,4 +85,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 1. Auth and API Client | 3/3 | Complete | 2026-03-22 |
 | 2. Daily Dashboard | 2/2 | Complete   | 2026-03-22 |
 | 3. Queries and Extended Data | 2/2 | Complete | 2026-03-22 |
-| 4. Distribution | 1/2 | In Progress|  |
+| 4. Distribution | 2/2 | Complete   | 2026-03-22 |
