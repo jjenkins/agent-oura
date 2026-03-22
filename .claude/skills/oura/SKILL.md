@@ -18,7 +18,25 @@ cd {project_root}/.claude/skills/oura/scripts && node auth.mjs status
 
 Replace `{project_root}` with the actual absolute path to the project root directory. If the JSON output shows `"authenticated": false`, tell the user to authenticate first by running `/oura auth`.
 
+If the output shows a reason mentioning "not configured", tell the user to run `/oura setup` first to configure their Oura API credentials.
+
 ## Commands
+
+### /oura setup
+
+Configure your Oura API credentials (required before first use):
+
+```bash
+cd {project_root}/.claude/skills/oura/scripts && node setup.mjs
+```
+
+This prompts for your Oura `client_id` and `client_secret` and stores them in `~/.oura/config.json`.
+You only need to run this once. To get credentials:
+1. Visit https://cloud.ouraring.com/oauth/applications
+2. Register a new application with redirect URI: `http://localhost:8910/callback`
+3. Copy the client_id and client_secret shown after registration
+
+After setup, run `/oura auth` to complete OAuth2 authentication.
 
 ### /oura auth
 
@@ -33,7 +51,7 @@ This opens the user's browser to the Oura authorization page. After the user gra
 - On success: confirm with the user identity shown in the output (e.g., "Authenticated as user@example.com")
 - On failure: show the error message and suggest running `/oura auth` again
 
-**Note:** Requires `OURA_CLIENT_ID` and `OURA_CLIENT_SECRET` environment variables, or that the placeholder values in `auth.mjs` have been replaced with real credentials from https://cloud.ouraring.com/oauth/applications.
+**Note:** Requires credentials configured via `/oura setup` (stored in `~/.oura/config.json`). Power users can also set `OURA_CLIENT_ID` and `OURA_CLIENT_SECRET` environment variables to override the config file.
 
 ### /oura status
 
@@ -173,6 +191,7 @@ When scripts return errors or data commands fail, translate the error code to a 
 
 | Error | Message to User |
 |-------|----------------|
+| Not configured | "Your Oura credentials aren't set up yet. Run `/oura setup` to configure your client_id and client_secret." |
 | Not authenticated | "You're not connected to Oura. Run `/oura auth` to connect your account." |
 | Token expired or refresh failed | "Your Oura session expired. Run `/oura auth` to re-authenticate." |
 | Rate limited | "Oura API rate limit reached. Wait a few minutes and try again." |
@@ -182,6 +201,7 @@ When scripts return errors or data commands fail, translate the error code to a 
 
 ## Notes
 
+- Credentials are stored at `~/.oura/config.json` and are never committed to version control — configure via `/oura setup`
 - Tokens are stored at `~/.oura/tokens.json` and are never committed to version control
 - All OAuth scopes (`personal`, `daily`, `heartrate`, `workout`, `tag`, `session`, `spo2`) are requested on first authorization — they cannot be added later without re-authenticating
 - Token refresh is automatic: `readTokens()` in `auth.mjs` refreshes within 60 seconds of expiry
