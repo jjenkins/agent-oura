@@ -158,6 +158,70 @@ const FIELD_MAP = {
   // session: no single score — Claude interprets raw records
 };
 
+// --- Pearson correlation coefficient ---
+// Computes Pearson r between two arrays of numeric values.
+// Returns null if insufficient data or no variance in either array.
+function pearson(xs, ys) {
+  const n = Math.min(xs.length, ys.length);
+  if (n < 3) return null;
+
+  let sumX = 0, sumY = 0;
+  for (let i = 0; i < n; i++) {
+    sumX += xs[i];
+    sumY += ys[i];
+  }
+  const meanX = sumX / n;
+  const meanY = sumY / n;
+
+  let num = 0, denX = 0, denY = 0;
+  for (let i = 0; i < n; i++) {
+    const dx = xs[i] - meanX;
+    const dy = ys[i] - meanY;
+    num  += dx * dy;
+    denX += dx * dx;
+    denY += dy * dy;
+  }
+
+  const denom = Math.sqrt(denX * denY);
+  if (denom === 0) return null;
+  return num / denom;
+}
+
+// --- Correlation semantic bridge ---
+// Translates a Pearson r value to a human-readable category.
+function correlationCategory(r) {
+  if (r === null)  return 'Insufficient Data';
+  if (r >= 0.7)   return 'Strong Positive';
+  if (r >= 0.3)   return 'Moderate Positive';
+  if (r > -0.3)   return 'No Significant Correlation';
+  if (r > -0.7)   return 'Moderate Negative';
+  return 'Strong Negative';
+}
+
+// --- Value extraction for correlation ---
+// Returns an array of { day, value } objects sorted ascending by day.
+// Returns null for endpoints that lack a single numeric score.
+function extractValues(records, ep) {
+  // Endpoints not supported for correlation (no single numeric score).
+  if (ep === 'daily_stress' || ep === 'workout' || ep === 'session') {
+    return null;
+  }
+
+  let pairs;
+  if (ep === 'heartrate') {
+    // records are already aggregated daily buckets with bpm_avg.
+    pairs = records.map(r => ({ day: r.day, value: r.bpm_avg }));
+  } else if (FIELD_MAP[ep]) {
+    pairs = records.map(r => ({ day: r.day, value: FIELD_MAP[ep](r) }));
+  } else {
+    return null;
+  }
+
+  return pairs
+    .filter(p => p.value !== null && p.value !== undefined)
+    .sort((a, b) => a.day.localeCompare(b.day));
+}
+
 // --- Single-endpoint processing ---
 // Fetches all records for one endpoint and computes appropriate summary.
 async function processSingleEndpoint(ep, start, end) {
@@ -184,9 +248,97 @@ async function processSingleEndpoint(ep, start, end) {
 
 // --- Main ---
 try {
-  // Correlation mode — placeholder for Plan 02.
+  // Correlation mode — computes Pearson r between two endpoints with optional day offset.
   if (correlate) {
-    process.stdout.write(JSON.stringify({ error: 'Correlation mode not yet implemented' }, null, 2) + '\n');
+    const [endpointA, endpointB] = correlate.split(',').map(e => e.trim());
+    const SUPPORTED_FOR_CORRELATION = ['daily_sleep', 'daily_readiness', 'daily_activity', 'daily_spo2', 'heartrate'];
+
+    // Validate both endpoints support numeric correlation.
+    for (const ep of [endpointA, endpointB]) {
+      if (!SUPPORTED_FOR_CORRELATION.includes(ep)) {
+        process.stdout.write(JSON.stringify({
+          error: `Correlation not available for ${ep}. Supported: ${SUPPORTED_FOR_CORRELATION.join(', ')}.`,
+        }, null, 2) + '\n');
+        process.exit(0);
+      }
+    }
+
+    const offset = parseInt(offsetArg ?? '0', 10);
+    const { start, end, warning: dateWarning } = getDateRange(startArg, endArg);
+
+    const paramsA = buildParams(endpointA, start, end);
+    const paramsB = buildParams(endpointB, start, end);
+
+    const [resultA, resultB] = await Promise.allSettled([
+      fetchAllPages(endpointA, paramsA),
+      fetchAllPages(endpointB, paramsB),
+    ]);
+
+    if (resultA.status === 'rejected') {
+      process.stdout.write(JSON.stringify({
+        error: `Failed to fetch ${endpointA}: ${resultA.reason?.message ?? String(resultA.reason)}`,
+      }, null, 2) + '\n');
+      process.exit(0);
+    }
+    if (resultB.status === 'rejected') {
+      process.stdout.write(JSON.stringify({
+        error: `Failed to fetch ${endpointB}: ${resultB.reason?.message ?? String(resultB.reason)}`,
+      }, null, 2) + '\n');
+      process.exit(0);
+    }
+
+    // Aggregate heartrate records to daily buckets before value extraction.
+    let recordsA = resultA.value;
+    let recordsB = resultB.value;
+    if (endpointA === 'heartrate') recordsA = aggregateHeartRateByDay(recordsA);
+    if (endpointB === 'heartrate') recordsB = aggregateHeartRateByDay(recordsB);
+
+    const valuesA = extractValues(recordsA, endpointA);
+    const valuesB = extractValues(recordsB, endpointB);
+
+    // Build O(1) lookup map for B values keyed by day string.
+    const mapB = new Map(valuesB.map(v => [v.day, v.value]));
+
+    // Offset alignment: match A[day N] with B[day N + offset].
+    const MS_PER_DAY = 86_400_000;
+    const alignedPairs = [];
+    for (const a of valuesA) {
+      const dateA = new Date(a.day);
+      const targetDay = new Date(dateA.getTime() + offset * MS_PER_DAY)
+        .toISOString().slice(0, 10);
+      const valB = mapB.get(targetDay);
+      if (valB !== undefined) {
+        alignedPairs.push({ day_a: a.day, value_a: a.value, day_b: targetDay, value_b: valB });
+      }
+    }
+
+    const xs = alignedPairs.map(p => p.value_a);
+    const ys = alignedPairs.map(p => p.value_b);
+
+    let sampleWarning = dateWarning;
+    if (alignedPairs.length < 7) {
+      const msg = `Only ${alignedPairs.length} days of aligned data -- correlation may not be statistically meaningful`;
+      sampleWarning = sampleWarning ? `${sampleWarning}; ${msg}` : msg;
+    }
+
+    const r = pearson(xs, ys);
+    const category = correlationCategory(r);
+
+    process.stdout.write(JSON.stringify({
+      mode: 'correlation',
+      endpoint_a: endpointA,
+      endpoint_b: endpointB,
+      offset_days: offset,
+      start_date: start,
+      end_date: end,
+      warning: sampleWarning,
+      correlation: {
+        r,
+        category,
+        sample_size: alignedPairs.length,
+      },
+      aligned_pairs: alignedPairs,
+    }, null, 2) + '\n');
     process.exit(0);
   }
 
