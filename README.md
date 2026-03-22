@@ -44,6 +44,9 @@ Before using the skill, you need to register a developer application with Oura:
 4. Fill in the form:
    - **App Name:** anything you like (e.g., "Claude Code Oura Skill")
    - **Description:** optional
+   - **Website URL:** `http://localhost:8910` (required by the form — for personal use, localhost is fine)
+   - **Privacy Policy URL:** `http://localhost:8910` (same — just for personal use)
+   - **Terms of Service URL:** `http://localhost:8910` (same — just for personal use)
    - **Redirect URIs:** `http://localhost:8910/callback`
      > This must be exactly `http://localhost:8910/callback` — no trailing slash, no https, port 8910
    - **Default Scopes:** select all available scopes (personal, daily, heartrate, workout, tag, session, spo2)
