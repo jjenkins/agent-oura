@@ -4,6 +4,7 @@ A Claude Code skill that connects to your Oura Ring, giving you a health dashboa
 
 ## What It Does
 
+- **Recovery cost analysis** — computes per-workout recovery curves from HRV, resting heart rate, readiness, and temperature data. Builds a personal regression model to predict: "if I play 90 minutes of hard pickleball tomorrow, what's the expected readiness cost?"
 - Daily health dashboard with readiness, sleep, activity, and stress scores
 - Natural-language queries ("how did I sleep this week?", "show my readiness trend")
 - Correlation analysis across metrics (e.g., "does my sleep affect my readiness?")
@@ -121,6 +122,18 @@ Shows your personal info and ring configuration.
 ```
 
 Check if your Oura connection is active and when your token expires.
+
+### Recovery Cost Analysis
+
+Ask about how workouts affect your body:
+
+- "How does pickleball affect my recovery?"
+- "What's the recovery cost of my workouts?"
+- "If I play hard pickleball for 90 minutes tomorrow, what will it cost me?"
+- "Should I work out today?"
+- "How long does it take me to recover from hard workouts vs easy ones?"
+
+The skill analyzes your workout history against your sleep HRV, resting heart rate, readiness scores, and temperature deviation to compute per-workout recovery curves. With enough data (15+ workouts), it builds a personal regression model that predicts recovery cost based on workout intensity, duration, your current readiness, recent training load, and sleep quality.
 
 ### Natural Language Queries
 
