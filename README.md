@@ -229,7 +229,7 @@ Agent Oura is a [Claude Code skill](https://docs.anthropic.com/en/docs/claude-co
 3. Data is returned as structured output
 4. Claude interprets the data and responds conversationally
 
-All data stays local — nothing is sent to third parties beyond the Oura API itself.
+All data is fetched directly from the Oura API to your machine — there is no intermediary server or database. When Claude interprets your data, it is sent to Anthropic as part of the conversation, the same as anything you type or paste into Claude Code.
 
 ## License
 
