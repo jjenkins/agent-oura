@@ -1,6 +1,6 @@
 ---
 name: oura
-description: Connect to your Oura Ring and view health data. Use when the user mentions Oura, sleep score, readiness score, activity score, step count, steps, heart rate, HRV, SpO2, blood oxygen, stress data, workout tracking, or asks about their health metrics, sleep quality, recovery, or ring data. Also trigger on phrases like "how did I sleep", "show my health data", "check my ring", "what's my readiness", "how many steps", or any question about biometric, wellness, or wearable ring data.
+description: Connect to your Oura Ring and view health data. Use when the user mentions Oura, sleep score, readiness score, activity score, step count, steps, heart rate, HRV, SpO2, blood oxygen, stress data, workout tracking, recovery cost, workout recovery, or asks about their health metrics, sleep quality, recovery, or ring data. Also trigger on phrases like "how did I sleep", "show my health data", "check my ring", "what's my readiness", "how many steps", "how does pickleball affect my recovery", "should I work out today", "if I play tomorrow", "recovery time", or any question about biometric, wellness, or wearable ring data.
 ---
 
 # Oura Ring Skill
@@ -176,6 +176,49 @@ The output includes a `correlation.category` field. Present it conversationally:
 - Point out 1-2 specific days from `aligned_pairs` as concrete examples.
 - If `warning` is present (small sample size), mention that the result should be taken with a grain of salt.
 - Never show the raw r-value to the user.
+
+### Recovery Analysis
+
+Use recovery analysis mode when the user asks about workout recovery cost, how workouts affect their body, whether they should work out, or optimal scheduling around activities.
+
+**Triggers:** "recovery cost", "how does [activity] affect", "recovery time", "should I play/train/work out", "what's the cost of", "pickleball recovery", "workout recovery", "if I play tomorrow", "what would happen if", "schedule my next session", "optimal day to play", "how long to recover"
+
+```bash
+# Historical recovery analysis (all workouts, last 90 days)
+cd {project_root}/.claude/skills/oura/scripts && node recovery.mjs --days 90
+
+# Filter to a specific activity
+cd {project_root}/.claude/skills/oura/scripts && node recovery.mjs --activity pickleball --days 90
+
+# Predict recovery cost for a hypothetical workout
+cd {project_root}/.claude/skills/oura/scripts && node recovery.mjs --activity pickleball --predict --predict-duration 90 --predict-intensity hard
+```
+
+**Arguments:**
+- `--activity <type>` — filter workouts by activity name (e.g., "pickleball", "running")
+- `--days <n>` — lookback window in days (default: 90)
+- `--predict` — enable prediction mode (requires sufficient historical data)
+- `--predict-duration <minutes>` — duration of hypothetical workout (default: 60)
+- `--predict-intensity <easy|moderate|hard>` — intensity of hypothetical workout (default: moderate)
+
+**Interpreting output:**
+
+The script returns JSON with these sections:
+
+- **summary**: Aggregate stats — total workouts analyzed, average readiness cost, average recovery days, breakdown by activity type
+- **model**: Regression model status — if `available: true`, shows R², sample size, and the most significant predictive factors. If `available: false`, shows how many more workouts are needed.
+- **prediction**: (when `--predict` is used) Expected readiness cost, expected recovery days, confidence level, and comparable historical sessions
+- **insights**: Pre-computed narrative insights about the user's recovery patterns — weave these naturally into your response
+- **warnings**: Current state warnings (e.g., high training load, still recovering from recent workout) — always mention these prominently
+- **workouts**: Per-workout recovery curves with baseline, trajectory, and pre-workout state
+
+**Presentation guidelines:**
+- Lead with insights and warnings — these are the most actionable information
+- For predictions, present the expected cost conversationally: "Based on your last 34 workouts, a hard 90-minute pickleball session tomorrow would likely cost you about 14 readiness points, with recovery taking roughly 2 days"
+- Reference comparable sessions as evidence: "This is similar to your March 15 session which cost 16 points"
+- If the model isn't available yet, show historical patterns and note how many more workouts are needed
+- Never show raw regression coefficients or R² values — use the `confidence` field instead
+- Always mention if the user is still in a recovery window from a recent workout
 
 ### Ambiguous Questions
 
